@@ -1,1 +1,60 @@
-<script>document.write('<p style=" text-align:center;font-size: 150%;color:green;"id="gaama">SUCCESS</p>');</script>
+//<script>document.write('<p style=" text-align:center;font-size: 150%;color:green;"id="gaama">SUCCESS</p>');</script>
+<!DOCTYPE html> 
+<html lang="en"> 
+    <head> 
+        <meta charset="UTF-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <title>TESTING</title> 
+        <script> 
+        let switchStartTime = null; // Initialize switchStartTime 
+        let isTabSwitchRecorded = false; // Add a flag to track if the tab switch has been recorded 
+ 
+        document.addEventListener('DOMContentLoaded', function() { 
+            const adBanner = document.getElementById('adBanner'); 
+ 
+            // Click event handler for the ad banner 
+            adBanner.addEventListener('click', function(event) { 
+                if (!isTabSwitchRecorded) { 
+                    // Only record the tab switch if it hasn't been done yet 
+                    switchStartTime = Date.now(); 
+                    isTabSwitchRecorded = true; // Set the flag to true 
+                } 
+ 
+                const openInNewTab = event.ctrlKey || event.metaKey; // Check for Ctrl (Windows/Linux) or Command (Mac) key press 
+ 
+                if (openInNewTab) { 
+                    // Open the URL in the same tab 
+                    window.location.href = 'https://www.google.com'; 
+                } else { 
+                    // Open the URL in a new tab 
+                    window.open('https://www.google.com', '_blank'); 
+                } 
+            }); 
+        }); 
+ 
+        // Add a visibility change event listener to log tab switch duration 
+        document.addEventListener('visibilitychange', () => { 
+            if (document.hidden) { 
+                // Tab switched away (hidden) 
+                switchStartTime = Date.now(); 
+            } else if (isTabSwitchRecorded) { 
+                // Tab switched back (visible) and tab switch has been recorded 
+                const switchEndTime = Date.now(); 
+                const switchDuration = switchEndTime - switchStartTime; 
+                if(switchDuration > 6000){ 
+                    alert('Tab switched away for', switchDuration, 'milliseconds AD Click is Valid'); 
+                }else{ 
+                    alert('Tab switched away for', switchDuration, 'milliseconds AD Click is Invalid'); 
+                } 
+                isTabSwitchRecorded = false; // Reset the flag for the next click 
+            } 
+        }); 
+    </script> 
+    </head> 
+    <body> 
+        <div id="adBanner" 
+            style="width: 300px; height: 150px; background-color: #0073e6; cursor: pointer; text-align: center; padding: 10px;"> 
+            <p style="color: white;">Click Me!</p> 
+        </div> 
+    </body> 
+</html>
