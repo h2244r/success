@@ -19,7 +19,7 @@
             switchStartTime = Date.now();
             isTabSwitchRecorded = true; // Set the flag to true
           }
-          window.open("https://www.google.com", "_blank");
+          window.location.href = "https://www.google.com";
         });
         adBanner.addEventListener("dblclick", function (event) {
           if (!isTabSwitchRecorded) {
